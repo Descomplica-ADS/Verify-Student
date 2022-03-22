@@ -28,8 +28,8 @@ client.on('messageCreate', (message) => {
             RAids.push(message.content)
             console.log(RAids)
         }else {
-          message.member.roles.cache.has('955885679240417321');
-          message.reply('Você já foi verificado!')
+         message.member.roles.cache.has('955885679240417321');
+         message.reply(`${message.author} Você já foi verificado!`)
         }
     }  
 });
