@@ -21,7 +21,8 @@ client.on('messageCreate', (message) => {
     if(message.content.includes('!verificar')) {
         let matches = regexRA.exec(message.content)
         if (matches !== null) {
-            message.reply('Aluno Verificado!')
+            message.reply('Aluno Verificado!');
+            message.member.roles.add('ROLE_ID');
         }
     }  
 });
