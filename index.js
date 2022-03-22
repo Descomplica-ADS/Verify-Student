@@ -13,6 +13,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+let RAids = [];
+
 const regexRA = /221\d{4}-006$/
 
 client.on('messageCreate', (message) => {
@@ -22,7 +24,12 @@ client.on('messageCreate', (message) => {
         let matches = regexRA.exec(message.content)
         if (matches !== null) {
             message.reply('Aluno Verificado!');
-            message.member.roles.add('ROLE_ID');
+            message.member.roles.add('955885679240417321');
+            RAids.push(message.content)
+            console.log(RAids)
+        }else {
+          message.member.roles.cache.has('955885679240417321');
+          message.reply('Você já foi verificado!')
         }
     }  
 });
