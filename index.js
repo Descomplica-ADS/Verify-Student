@@ -1,5 +1,7 @@
 require('dotenv').config();
-const { Client, Intents, fs } = require('discord.js', 'fs');
+const { Client, Intents } = require('discord.js',);
+
+const fs = require('fs');
 
 const client = new Client({
     intents: [
@@ -38,14 +40,21 @@ client.on('messageCreate', (message) => {
         RAids[index] = item.replace('!verificar ', '');
     });
 
-    let myJsonString = JSON.stringify(RAids);
+    let raJson = JSON.stringify(RAids);
     //salvar JSON em arquivo com fs
-    fs.writeFile('RAids.json', myJsonString, 'utf8', function(err) {
+    fs.writeFile('RAids.json', raJson, 'utf8', function(err) {
         if (err) throw err;
         console.log('RAids.json saved');
     });
 
-    console.log(myJsonString);
+    console.log(raJson);
+
+    //lê arquivo JSON
+fs.readFile('RAids.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    console.log('RAids.json read');
+    console.log(data);
+    });
 });
 
 client.login(process.env.token);
