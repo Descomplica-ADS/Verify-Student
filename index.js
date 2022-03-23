@@ -13,6 +13,11 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setStatus('online');
+    client.user.setPresence({ activities: [{ 
+        name: 'Aula do Ubira',
+        type: 'WATCHING'
+    }] });
 });
 
 let RAids = [];
@@ -50,7 +55,7 @@ client.on('messageCreate', (message) => {
     console.log(raJson);
 
     //lê arquivo JSON
-fs.readFile('RAids.json', 'utf8', function (err, data) {
+    fs.readFile('RAids.json', 'utf8', function (err, data) {
     if (err) throw err;
     console.log('RAids.json read');
     console.log(data);
