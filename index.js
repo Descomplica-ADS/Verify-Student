@@ -13,29 +13,30 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setStatus('online');
-    client.user.setPresence({ activities: [{ 
-        name: 'Aula do Ubira',
-        type: 'WATCHING'
+    client.user.setStatus('dnd');
+    client.user.setPresence({ game: [{ 
+        name: 'Aula do Ubira 🧑‍💻',
+        type: 'WATCHING',
     }] });
 });
 
 let RAids = [];
 
 const regexRA = /221\d{4}-006$/
+const roleID = '955885679240417321';
 
 client.on('messageCreate', (message) => {
     if (message.author.bot) return;
 
-    if (message.content.includes('!verificar')) {
+    if (message.content.startsWith('!verificar')) {
         let matches = regexRA.exec(message.content)
         if (matches !== null) {
             message.reply('Aluno Verificado!');
-            message.member.roles.add('955885679240417321');
+            message.member.roles.add(roleID);
             RAids.push(message.content)
             console.log(RAids)
         } else {
-            message.member.roles.cache.has('955885679240417321');
+            message.member.roles.cache.has(roleID);
             message.reply(`${message.author} Você já foi verificado!`)
         }
     }
@@ -54,12 +55,12 @@ client.on('messageCreate', (message) => {
 
     console.log(raJson);
 
-    //lê arquivo JSON
+    /*lê arquivo JSON
     fs.readFile('RAids.json', 'utf8', function (err, data) {
     if (err) throw err;
     console.log('RAids.json read');
     console.log(data);
-    });
+    });*/
 });
 
 client.login(process.env.token);
