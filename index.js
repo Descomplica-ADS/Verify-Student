@@ -14,7 +14,7 @@ const client = new Client({
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     client.user.setStatus('dnd');
-    client.user.setPresence({ game: [{ 
+    client.user.setPresence({ activities: [{ 
         name: 'Aula do Ubira 🧑‍💻',
         type: 'WATCHING',
     }] });
