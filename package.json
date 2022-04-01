@@ -1,6 +1,17 @@
 {
+  "name": "verify-student-bot",
+  "description": "A bot for verify students",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --experimental-specifier-resolution=node src/main.js"
+  },
   "dependencies": {
+    "@vscode/sqlite3": "^5.0.8",
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "knex": "^1.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "2"
   }
 }
