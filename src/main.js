@@ -1,7 +1,7 @@
 import "dotenv/config";
-import { db } from "./database";
-import { client } from "./discord/connection";
-import { validateRA } from "./utils";
+import { db } from "./database/index.js";
+import { client } from "./discord/connection.js";
+import { validateRA } from "./utils/index.js";
 
 client.on("messageCreate", async (message) => {
   const { author, content } = message;

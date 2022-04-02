@@ -1,9 +1,14 @@
 {
   "name": "verify-student-bot",
   "description": "A bot for verify students",
+  "main": "src/main.js",
   "type": "module",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
-    "dev": "nodemon --experimental-specifier-resolution=node src/main.js"
+    "dev": "nodemon src/main.js",
+    "start": "node ."
   },
   "dependencies": {
     "@vscode/sqlite3": "^5.0.8",
