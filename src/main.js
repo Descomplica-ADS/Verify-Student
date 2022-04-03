@@ -2,6 +2,7 @@ import "dotenv/config";
 import { db } from "./database/index.js";
 import { client } from "./discord/connection.js";
 import { validateRA } from "./utils/index.js";
+import { roleID } from "./utils/index.js";
 
 client.on("messageCreate", async (message) => {
   const { author, content } = message;
@@ -26,7 +27,8 @@ client.on("messageCreate", async (message) => {
     await db("RAs").insert({ ra_number });
 
     message.reply(
-      `${author} você está verificado com o RA ${RA} ! :white_check_mark:`
+      `${author} você está verificado com o RA ${RA} ! :white_check_mark:`,
+      message.member.roles.add(roleID)
     );
   }
 });
