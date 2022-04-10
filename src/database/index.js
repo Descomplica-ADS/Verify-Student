@@ -12,6 +12,8 @@ db.raw(
   `
     CREATE TABLE IF NOT EXISTS RAs (
       id INTEGER PRIMARY KEY,
+      user_id TEXT UNIQUE,
+      username TEXT, 
       ra_number INTEGER UNIQUE NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
