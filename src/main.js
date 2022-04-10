@@ -29,7 +29,8 @@ client.on("messageCreate", async (message) => {
     await db("RAs").insert({ ra_number, username, user_id });
 
     message.reply(
-      `${author} você está verificado com o RA ${RA} ! :white_check_mark:`
+      `${author} você está verificado com o RA ${RA} ! :white_check_mark:`,
+      message.member.roles.add(roleID)
     );
     message.member.roles.add(roles.verified);
   }
