@@ -1,23 +1,19 @@
-import knex from "knex";
+import knex from "knex"
 
 export const db = knex({
-  client: "sqlite3",
-  useNullAsDefault: true,
-  connection: {
-    filename: "./descomplica.sqlite",
-  },
-});
+    client: "sqlite3",
+    useNullAsDefault: true,
+    connection: {
+        filename: "./descomplica.sqlite",
+    },
+})
 
-db.raw(
-  `
+db.raw(`
     CREATE TABLE IF NOT EXISTS RAs (
-      id INTEGER PRIMARY KEY,
-      user_id TEXT UNIQUE,
-      username TEXT, 
-      ra_number INTEGER UNIQUE NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-  `
-).catch((err) => {
-  throw err;
-});
+        ID INTEGER PRIMARY KEY,
+        USER_ID TEXT UNIQUE,
+        USERNAME TEXT,
+        RA INTEGER UNIQUE NOT NULL,
+        CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`).catch((err) => { throw err })
