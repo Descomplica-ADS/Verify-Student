@@ -1,3 +1,1 @@
-export default {
-  verified: "962793851536429147",
-};
+export const roles = { verified: "955267876925874206" }
