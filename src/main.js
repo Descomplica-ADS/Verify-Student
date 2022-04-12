@@ -1,36 +1,27 @@
-import "dotenv/config";
-import { db } from "./database/db.js";
-import { client } from "./discord/connection.js";
-import { validateRA } from "./utils/regex.js";
-import roles from "./utils/roles.js";
+import { connClient as client, roles }        from "./hooks/discordImports.js"
+import { userVerified, existsUser, existsRA } from "./hooks/databaseImports.js"
+import { replies } from "./hooks/replies.js"
+import validations from "./validations.js"
 
-client.on("messageCreate", async (message) => {
-  const { author, content } = message;
-  const { id: user_id, username } = author;
+client.on("messageCreate", async message => {
+    const
+        { author, content }       = message,
+        { id: user_id, username } = author,
+        [ code, RA_alnum ]        = content.split(/ +/)
 
-  const [code, RA] = content.split(" ");
-  if (author.bot) return;
-  if (code.startsWith("!verificar")) {
-    if (!RA) return message.reply("Digite o número do seu RA. :pencil:");
+    if (author.bot) return
 
-    if (!validateRA(RA))
-      return message.reply("Número de RA inválido! :no_entry_sign:");
+    const callback = validations(content)
+    if (callback == "noCode") return
+    if (callback != "valid")  return message.reply(replies[callback])
 
-    const ra_number = Number(RA.replace("-", ""));
-    const existsRA = await db("RAs").select().where({ ra_number });
-    if (existsRA.length > 0) {
-      return message.reply("Este RA já está verificado.");
-    }
-    const rows = await db("RAs").select().where({ user_id });
-    if (rows.length > 0) {
-      return message.reply("Você já verificou um RA. :no_entry:");
-    }
+    const RA = Number(RA_alnum.replace("-", ""))
 
-    await db("RAs").insert({ ra_number, username, user_id });
+    if ((await existsUser(user_id)).length != 0) return message.reply(replies.youAlreadyChecked)
+    if ((await existsRA(RA)).length != 0)        return message.reply(replies.alreadyCheckedRA)
 
-    message.reply(
-      `${author} Você foi verificado com o RA${RA}! :white_check_mark:`,
-    );
-    message.member.roles.add(roles.verified);
-  }
-});
+    userVerified(RA, username, user_id)
+    .then(()      => message.member.roles.add(roles.verified))
+    .then(()  => message.reply(replies.verifiedUser))
+    .catch(() => message.reply(replies.dbInsertionError))
+})
