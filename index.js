@@ -25,6 +25,11 @@ for (const file of commandFiles) {
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   console.log(`Client Latency: ${Math.floor(client.ws.ping)}ms`);
+  client.user.setStatus('online');
+  client.user.setPresence({ activities: [{ 
+      name: 'Aula do Ubira 🧑‍💻',
+      type: 'WATCHING'
+  }] });
 });
 
 client.on("interactionCreate", async (interaction) => {
