@@ -37,29 +37,28 @@ export default {
         ephemeral: true,
       });
     }
-    await db
-      .transaction(async (t) => {
-        return await db("RAs")
-          .transacting(t)
+    try {
+      await db.transaction(async (trx) => {
+        await trx("RAs")
           .insert({ ra_number, username, user_id })
-          .then(async () => {
-            if (period !== 1) {
-              await interaction.member.roles.add(roles.secondPeriod);
-            } else {
-              await interaction.member.roles.add(roles.verified);
-            }
-            return t.commit();
-          })
-          .catch((error) => {
-            console.log(error);
-            return t.rollback();
+          .then(trx.commit)
+          .catch(trx.rollback);
+        if (period !== 1) {
+          await interaction.member.roles.add(roles.secondPeriod);
+          await interaction.reply({
+            content: `${username} Verificamos que você participa de uma turma de outro período.\n Procure o server da sua turma para acessar todos os canais. *Por aqui você só poderá usar o chat geral* :warning:`,
+            ephemeral: true,
           });
-      })
-      .then(async () => {
-        await interaction.reply({
-          content: `${username} você está verificado com o RA ${ra_number} ! :white_check_mark:`,
-          ephemeral: true,
-        });
+        } else {
+          await interaction.member.roles.add(roles.verified);
+          await interaction.reply({
+            content: `${username} você está verificado com o RA ${ra_number} ! :white_check_mark:`,
+            ephemeral: true,
+          });
+        }
       });
+    } catch (error) {
+      throw error;
+    }
   },
 };
