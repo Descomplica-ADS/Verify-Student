@@ -39,7 +39,7 @@ export default {
     }
     await db
       .transaction(async (t) => {
-        await db("RAs")
+        return await db("RAs")
           .transacting(t)
           .insert({ ra_number, username, user_id })
           .then(async () => {
@@ -48,11 +48,11 @@ export default {
             } else {
               await interaction.member.roles.add(roles.verified);
             }
-            t.commit();
+            return t.commit();
           })
           .catch((error) => {
-            t.rollback();
-            throw error;
+            console.log(error);
+            return t.rollback();
           });
       })
       .then(async () => {
