@@ -16,19 +16,20 @@ export default {
     const { user } = interaction;
     const { id: user_id, username } = user;
     const { value } = interaction.options.get("ra");
-    if (!isValidRA(value))
+    const { isValid, period } = isValidRA(value);
+    if (!isValid)
       return await interaction.reply({
         content: "Número de RA inválido ! :no_entry_sign:",
         ephemeral: true,
       });
     const ra_number = Number(value.replace("-", ""));
     const existsRA = await db("RAs").select().where({ ra_number });
-    if (existsRA.length) {
+    if (existsRA.length)
       return await interaction.reply({
         content: "Este RA já esta verificado.",
         ephemeral: true,
       });
-    }
+
     const userExists = await db("RAs").select().where({ user_id });
     if (userExists.length) {
       return await interaction.reply({
@@ -36,11 +37,29 @@ export default {
         ephemeral: true,
       });
     }
-    await db("RAs").insert({ ra_number, username, user_id });
-    await interaction.member.roles.add(roles.verified);
-    await interaction.reply({
-      content: `${username} você está verificado com o RA ${ra_number} ! :white_check_mark:`,
-      ephemeral: true,
-    });
+    await db
+      .transaction(async (t) => {
+        await db("RAs")
+          .transacting(t)
+          .insert({ ra_number, username, user_id })
+          .then(async () => {
+            if (period !== 1) {
+              await interaction.member.roles.add(roles.secondPeriod);
+            } else {
+              await interaction.member.roles.add(roles.verified);
+            }
+            t.commit();
+          })
+          .catch((error) => {
+            t.rollback();
+            throw error;
+          });
+      })
+      .then(async () => {
+        await interaction.reply({
+          content: `${username} você está verificado com o RA ${ra_number} ! :white_check_mark:`,
+          ephemeral: true,
+        });
+      });
   },
 };
