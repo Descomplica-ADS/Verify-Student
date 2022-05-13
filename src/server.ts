@@ -1,0 +1,1 @@
+const init = 1
