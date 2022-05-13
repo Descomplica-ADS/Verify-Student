@@ -1,0 +1,42 @@
+{
+  "name": "descomplica-bot",
+  "description": "👾 Discord bot para a Faculdade Descomplica 👾",
+  "version": "2.0.0",
+  "main": "src/server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts",
+    "build": "tsc",
+    "start": "node src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Descomplica-ADS/Descomplica-bot.git"
+  },
+  "keywords": [
+    "node",
+    "bot",
+    "descomplica",
+    "student"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Descomplica-ADS/Descomplica-bot/issues"
+  },
+  "homepage": "https://github.com/Descomplica-ADS/Descomplica-bot#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/rest": "^0.4.1",
+    "@prisma/client": "^3.14.0",
+    "discord-api-types": "^0.32.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.1",
+    "yarn-run-all": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.33",
+    "prisma": "^3.14.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  }
+}
