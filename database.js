@@ -1,7 +1,7 @@
 import knex from "knex";
 
 export const db = knex({
-  client: "sqlite3",
+  client: "better-sqlite3",
   useNullAsDefault: true,
   connection: {
     filename: "./descomplica.sqlite",
