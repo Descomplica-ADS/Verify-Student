@@ -23,8 +23,8 @@ for (const file of commandFiles) {
   });
 }
 client.once("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  console.log(`Client Latency: ${Math.floor(client.ws.ping)}ms`);
+  console.log(`✅ - Logado com sucesso em: ${client.user.tag}!`);
+  console.log(`📊 - Latência de: ${client.ws.ping}ms`)
   client.user.setStatus('online');
   client.user.setPresence({ activities: [{ 
       name: 'Aula do Ubira 🧑‍💻',
